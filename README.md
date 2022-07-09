@@ -14,3 +14,15 @@ chmod +x composer.sh
 
 vendor/bin/phpunit tests
 ```
+
+# Test Pattern
+
+## Arange-Act-Asset
+
+* Arange: All necessary preconditions and inputs
+    - Build a setUp method to start the objects of the test
+* Act: On the object or method under test
+    - Get the output of the method execution
+    - The method must have the test word as first word on its name
+* Assert: That the expected results have ocurred
+    - Validate the output with an assertion

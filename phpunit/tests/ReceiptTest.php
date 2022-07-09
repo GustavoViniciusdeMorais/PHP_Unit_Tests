@@ -10,12 +10,25 @@ use TDD\Receipt;
 
 class ReceiptTest extends TestCase
 {
+
+    public function setUp()
+    {
+        $this->receipt = new Receipt();
+    }
+
+    public function tearDown()
+    {
+        unset($this->receipt);
+    }
+
     public function testTotal()
     {
-        $receipt = new Receipt();
+        $input = [1,1,1];
+        $output = $this->receipt->total($input);
+
         $this->assertEquals(
             3,
-            $receipt->total([1,1,1]),
+            $output,
             'When summing should be equal to 3'
         );
     }
