@@ -26,3 +26,9 @@ vendor/bin/phpunit tests
     - The method must have the test word as first word on its name
 * Assert: That the expected results have ocurred
     - Validate the output with an assertion
+
+## TDD
+
+* Write the test first
+    - What should the input be?
+    - What should the output be?
