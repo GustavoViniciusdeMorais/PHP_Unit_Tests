@@ -13,6 +13,8 @@ chmod +x composer.sh
 ./composer.sh
 
 vendor/bin/phpunit tests
+
+vendor/bin/phpunit tests --filter=ReceiptTest::testTax
 ```
 
 # Test Pattern
