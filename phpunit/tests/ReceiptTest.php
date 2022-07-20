@@ -58,6 +58,22 @@ class ReceiptTest extends TestCase
         );
     }
 
+    /**
+     * @dataProvider providerToExceptionTeste
+     */
+    public function testTotalException($input, $coupon)
+    {
+        $this->expectException('BadMethodCallException');
+        $this->receipt->total($input, $coupon);
+    }
+
+    public function providerToExceptionTeste()
+    {
+        return [
+            'higher coupon price' => [[0,2,5,8], 1.20]
+        ];
+    }
+
     public function testPostTaxTotal()
     {
         $items = [1,2,5,8];
