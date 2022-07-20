@@ -15,6 +15,10 @@ chmod +x composer.sh
 vendor/bin/phpunit tests
 
 vendor/bin/phpunit tests --filter=ReceiptTest::testTax
+
+vendor/bin/phpunit tests --filter=testTotal#1 // run the first data provider into the test
+vendor/bin/phpunit tests --filter=testTotal#1-2 // run the first and data provider into the test
+vendor/bin/phpunit tests --filter='testTotal@Test Case B' // run the test with the data provider key
 ```
 
 # Test Pattern
