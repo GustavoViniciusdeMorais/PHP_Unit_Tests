@@ -5,7 +5,9 @@ namespace TDD;
 use \BadMethodCallException;
 class Receipt
 {
-    public function total(array $items = [], $coupon = null)
+    public $tax;
+
+    public function subTotal(array $items = [], $coupon = null)
     {
         $sum = array_sum($items);
         if($coupon !== null){
@@ -19,15 +21,15 @@ class Receipt
         return $sum;
     }
 
-    public function tax($amount, $tax)
+    public function tax($amount)
     {
-        return ($amount * $tax);
+        return ($amount * $this->tax);
     }
 
-    public function postTaxTotal($items, $tax, $cupon)
+    public function postTaxSubTotal($items, $cupon)
     {
-        $subTotal = $this->total($items, $cupon);
-        return $subTotal + $this->tax($subTotal, $tax);
+        $subTotal = $this->subTotal($items, $cupon);
+        return $subTotal + $this->tax($subTotal);
     }
 
     public function currencyAmmount($input)
