@@ -38,3 +38,5 @@ vendor/bin/phpunit tests --filter='testTotal@Test Case B' // run the test with t
 * Write the test first
     - What should the input be?
     - What should the output be?
+    - Run the built test, so its fails
+    - Than build the method so the test passes
