@@ -6,14 +6,25 @@ require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_
 'autoload.php';
 
 use PHPUnit\Framework\TestCase;
+use TDD\Formatter;
 use TDD\Receipt;
 
 class ReceiptTest extends TestCase
 {
+    private $receipt;
+    private $formatter;
 
     public function setUp()
     {
-        $this->receipt = new Receipt();
+        $this->formatter = $this->getMockBuilder('TDD\Formatter')
+                            ->setMethods(['currencyAmmount'])
+                            ->getMock();
+        $this->formatter->expects(($this->any()))
+                ->method('currencyAmmount')
+                ->with($this->anything())
+                ->will($this->returnArgument(0));
+
+        $this->receipt = new Receipt($this->formatter);
     }
 
     public function tearDown()
@@ -78,18 +89,19 @@ class ReceiptTest extends TestCase
     {
         $items = [1,2,5,8];
         $cupon = null;
-        $receipt = $this->getMockBuilder('TDD\Receipt')
+        $localReceipt = $this->getMockBuilder('TDD\Receipt')
             ->setMethods(['tax','subTotal'])
+            ->setConstructorArgs([$this->formatter])
             ->getMock();
-        $receipt->expects($this->once())
+        $localReceipt->expects($this->once())
             ->method('subTotal')
             ->with($items, $cupon)
             ->will($this->returnValue(10.00));
-        $receipt->expects($this->once())
+        $localReceipt->expects($this->once())
             ->method('tax')
             ->with(10.00)
             ->will($this->returnValue(1.00));
-        $result = $receipt->postTaxSubTotal([1,2,5,8], null);
+        $result = $localReceipt->postTaxSubTotal([1,2,5,8], null);
         $this->assertEquals(11.00, $result);
     }
 
@@ -103,26 +115,5 @@ class ReceiptTest extends TestCase
             $output,
             "The output should be 1.00"
         );
-    }
-
-    /**
-     * @dataProvider provideCurrencyAmmount
-     */
-    public function testCurrencyAmmount($input, $expected, $message)
-    {
-        $this->assertSame(
-            $expected,
-            $this->receipt->currencyAmmount($input),
-            $message
-        );
-    }
-
-    public function provideCurrencyAmmount()
-    {
-        return [
-            [1, 1.00, '1 should be 1.00'],
-            [1.1, 1.10, '1.1 should be 1.10'],
-            [1.111, 1.11, '1.111 should be 1.11']
-        ];
     }
 }
